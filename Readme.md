@@ -8,3 +8,6 @@ TimeSen2Crop-2/
 │   │   ├── 2.csv               # Etc...
 │   ├── 2/                      # Tous les pixels de la culture 2
 │   ├── ...                     # Autres classes de culture (3 à 15)
+
+
+Downloaded data on https://zenodo.org/records/4715631
