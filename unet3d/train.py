@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 
 from unet3d.collate import pad_collate
-from unet3d.dataset import BaselineDataset
+from unet3d.dataset import PASTIS_Dataset
 from unet3d.unet3d import UNet
 
 
@@ -73,7 +73,7 @@ def train_model(
     Training pipeline.
     """
     # Create data loader
-    dataset = BaselineDataset(data_folder)
+    dataset = PASTIS_Dataset(data_folder)
     dataloader = torch.utils.data.DataLoader(
         dataset, batch_size=batch_size, collate_fn=pad_collate, shuffle=True
     )
@@ -136,7 +136,7 @@ if __name__ == "__main__":
     # Example usage:
     model = train_model(
         data_folder=Path(
-            "/Users/louis.stefanuto.c/Documents/pastis-benchmark-mines2024/DATA/TRAIN/"
+            "/Users/ludoviclepic/Downloads/Pastis"
         ),
         nb_classes=20,
         input_channels=10,
