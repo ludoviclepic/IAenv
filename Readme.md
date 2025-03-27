@@ -1,4 +1,4 @@
-# 🌾 UNet 3D pour la Classification de Séries Temporelles Agricoles
+# 🌾 UNet 3D pour la classification de séries temporelles agricoles
 
 ## Présentation
 
