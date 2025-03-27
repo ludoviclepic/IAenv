@@ -106,7 +106,10 @@ class PASTIS_Dataset(tdata.Dataset):
         # Get metadata
         print("Reading patch metadata . . .")
         self.meta_patch = gpd.read_file(os.path.join(folder, "metadata.geojson"))
-        self.meta_patch.index = self.meta_patch["ID_PATCH"].astype(int)
+        if "ID_PATCH" in self.meta_patch.columns:
+            self.meta_patch.index = self.meta_patch["ID_PATCH"].astype(int)
+        else:
+            raise KeyError("Column 'ID_PATCH' not found in meta_patch DataFrame. Please check your data source.")
         self.meta_patch.sort_index(inplace=True)
 
         self.date_tables = {s: None for s in sats}

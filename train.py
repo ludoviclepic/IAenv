@@ -6,9 +6,9 @@ import torch.optim as optim
 from tqdm import tqdm
 
 
-from unet3d.collate import pad_collate
-from unet3d.dataset import PASTIS_Dataset
-from unet3d.unet3d import UNet
+from collate import pad_collate
+from dataset import PASTIS_Dataset
+from unet3d import UNet
 
 
 def print_iou_per_class(
