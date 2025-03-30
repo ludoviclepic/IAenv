@@ -154,12 +154,30 @@ def get_up_layer(
         return nn.Upsample(scale_factor=2.0, mode=up_mode)
 
 
-def maxpool_layer(dim: int) -> Union[nn.MaxPool2d, nn.MaxPool3d]:
-    maxpool_layers: dict = {
-        Dimensions.TWO: nn.MaxPool2d,
-        Dimensions.THREE: nn.MaxPool3d,
-    }
-    return maxpool_layers[dim]
+# Insert custom pooling for MPS fallback
+if torch.backends.mps.is_available():
+    class MPSMaxPool3d(nn.Module):
+        def __init__(self, kernel_size, stride=None, padding=0, dilation=1, ceil_mode=False):
+            super().__init__()
+            # Pass parameters in the correct order: kernel_size, stride, padding, dilation,
+            # then explicitly set return_indices to False and ceil_mode as given.
+            self.pool = nn.MaxPool3d(kernel_size, stride, padding, dilation, return_indices=False, ceil_mode=ceil_mode)
+        def forward(self, x):
+            original_device = x.device
+            x_cpu = x.to("cpu")
+            out = self.pool(x_cpu)
+            return out.to(original_device)
+
+
+def maxpool_layer(dim: int) -> nn.Module:
+    # For 2D, use standard MaxPool2d.
+    if dim == Dimensions.TWO:
+        return nn.MaxPool2d
+    elif dim == Dimensions.THREE:
+        if torch.backends.mps.is_available():
+            return MPSMaxPool3d  # use the custom fallback for 3D
+        else:
+            return nn.MaxPool3d
 
 
 def get_maxpool_layer(

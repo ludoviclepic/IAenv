@@ -106,10 +106,7 @@ class PASTIS_Dataset(tdata.Dataset):
         # Get metadata
         print("Reading patch metadata . . .")
         self.meta_patch = gpd.read_file(os.path.join(folder, "metadata.geojson"))
-        if "ID_PATCH" in self.meta_patch.columns:
-            self.meta_patch.index = self.meta_patch["ID_PATCH"].astype(int)
-        else:
-            raise KeyError("Column 'ID_PATCH' not found in meta_patch DataFrame. Please check your data source.")
+        self.meta_patch.index = self.meta_patch["ID_PATCH"].astype(int)
         self.meta_patch.sort_index(inplace=True)
 
         self.date_tables = {s: None for s in sats}
@@ -200,13 +197,22 @@ class PASTIS_Dataset(tdata.Dataset):
             if self.target == "semantic":
                 target = np.load(
                     os.path.join(
-                        self.folder, "ANNOTATIONS", "TARGET_{}.npy".format(id_patch)
+                        self.folder, "ANNOTATIONS", "ParcelIDs_{}.npy".format(id_patch)
                     )
                 )
-                target = torch.from_numpy(target[0].astype(int))
+                target = torch.from_numpy(target.astype(int))  # ne squeeze pas ici
+
+                if target.dim() == 3:
+                    # If the target has an extra time dimension, collapse it (e.g. by taking the median)
+                    target = torch.median(target, dim=0).values  # now target has shape (H, W)
 
                 if self.class_mapping is not None:
                     target = self.class_mapping(target)
+                else:
+                    # Remap target values to contiguous integers starting from 0
+                    target_np = target.numpy()
+                    _, inverse = np.unique(target_np, return_inverse=True)
+                    target = torch.from_numpy(inverse.reshape(target_np.shape)).long()
 
             elif self.target == "instance":
                 heatmap = np.load(
