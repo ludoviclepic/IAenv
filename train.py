@@ -117,5 +117,6 @@ if __name__ == "__main__":
         batch_size=5,
         learning_rate=1e-3,
         device="cpu",
+        # device="mps",
         verbose=True,
     )

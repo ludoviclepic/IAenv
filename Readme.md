@@ -4,7 +4,7 @@
 
 Ce projet propose une extension de l'article **"Pixel-wise Agricultural Image Time Series Classification"** de Vincent et al.  
 Plutôt que de modifier la méthode originale, nous avons conçu une **approche complémentaire** à l’aide d’un **UNet 3D**, pour classifier les cultures à partir d’images satellites multi-temporelles. L’objectif est d’intégrer à la fois les dimensions **spatiales et temporelles**, afin d’assister la classification par prototypes en fournissant un contexte global.  
-Note: Vous pouvez essayer d'exécuter le code avec un petit dataset composé de 9 séries temporelles d'images du dataset PASTIS.
+Note: Vous pouvez essayer d'exécuter le code avec un petit dataset composé de 9 séries temporelles d'images du dataset PASTIS. Cependant évidement les résultats ne seront pas bon, les classes n'étant pas toutes représentées.
 
 ---
 
