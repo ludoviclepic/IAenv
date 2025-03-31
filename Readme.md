@@ -1,4 +1,4 @@
-# 🌾 UNet 3D pour la Classification de Séries Temporelles Agricoles
+# 🌾 UNet 3D pour la classification de séries temporelles agricoles
 
 ## Présentation
 
@@ -24,7 +24,8 @@ Nous introduisons une **architecture auxiliaire** basée sur un **UNet 3D**, cap
 
 ## 🧼 Données et Prétraitement
 
-Nous utilisons le jeu de données **PASTIS**, identique à celui de l'article de référence. Un **nettoyage rigoureux** a été effectué pour garantir la qualité des données.
+Nous utilisons le jeu de données **PASTIS**, identique à celui de l'article de référence. Un **nettoyage rigoureux** a été effectué pour garantir la qualité des données.  
+Jeu de données: https://zenodo.org/records/5012942#.YzvzYnZBxPa
 
 ### Méthodologie de nettoyage
 
